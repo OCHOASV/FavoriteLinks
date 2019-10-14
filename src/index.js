@@ -53,10 +53,11 @@ app.use(
 app.use(require('./routes/router'));
 app.use(require('./routes/security'));
 // Colocamos un prefijo /links
-app.use(require('/links', './routes/links'));
+app.use('/links', require('./routes/links'));
 
 
 /*** Public Files ***/
+app.use(express.static(path.join(__dirname, 'public')));
 
 /*** Run Server ***/
 app.listen(
