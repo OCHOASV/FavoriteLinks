@@ -3,6 +3,12 @@ const express = require('express');
 const morgan = require('morgan');
 const handlerbars = require('express-handlebars');
 const path = require('path');
+const flash = require('connect-flash');
+const session = require('express-session');
+const MySQLsession = require('express-mysql-session');
+
+// Conexion a la DB para sesiones
+const {database} = require('./keys');
 
 /*** Inits ***/
 const app = express();
@@ -34,6 +40,16 @@ app.engine(
 app.set('view engine', '.hbs');
 
 /*** Middlewares ***/
+// Sesiones
+app.use(session({
+		secret: 'FavoriteLinksOCHOA',
+		resave: false,
+		saveUninitialized: false,
+		store: new MySQLsession(database)
+	}
+));
+// Mensajes
+app.use(flash());
 // HTTP request
 app.use(morgan('dev'));
 // Manejar peticiones de usuarios
@@ -45,6 +61,7 @@ app.use(express.json());
 // Pasa a la siguiente funcion mientras el server procesa los req y res
 app.use(
 	(req, res, next) =>{
+		app.locals.success = req.flash('success');
 		next();
 	}
 );
