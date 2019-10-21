@@ -6,12 +6,14 @@ const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MySQLsession = require('express-mysql-session');
+const passport = require('passport');
 
 // Conexion a la DB para sesiones
 const {database} = require('./keys');
 
 /*** Inits ***/
 const app = express();
+require('./lib/passport');
 
 /*** Settings ***/
 // Port
@@ -56,6 +58,9 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 // Enviar y Recibir JSON
 app.use(express.json());
+// Iniciar passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 /*** Global Variables ***/
 // Pasa a la siguiente funcion mientras el server procesa los req y res
