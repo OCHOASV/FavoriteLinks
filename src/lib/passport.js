@@ -4,7 +4,7 @@ const strategy = require('passport-local').Strategy;
 const MyPool = require('../database');
 const helpers = require('../lib/helpers');
 
-// Autenticacion local.singup
+// Registro de usuario => local.singup
 passport.use('local.singup',
 	new strategy({
 			usernameField: 'nick',
@@ -20,8 +20,24 @@ passport.use('local.singup',
 			};
 			newUser.password = await helpers.encryptPass(password);
 			const insertUser = await MyPool.query('INSERT INTO user set ?', [newUser]);
-			// req.flash('success', 'Usuario Agregado con Exito !!!');
-			// res.redirect('/links');
+			// console.log(insertUser);
+			newUser.id = insertUser.insertId;
+			return done(null, newUser);
 		}
 	)
+);
+
+// Serializar usuario (guardar ID del usuario en user.id)
+passport.serializeUser(
+	(user, done) => {
+		done(null, user.id);
+	}
+);
+
+// Deserializar usuario (obtengo datos del ID que serialize antes)
+passport.deserializeUser(
+	async (id, done) => {
+		const rows = await MyPool.query('SELECT * FROM user WHERE id = ?', [id]);
+		done(null, rows[0]);
+	}
 );
