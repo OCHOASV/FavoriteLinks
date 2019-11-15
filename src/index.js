@@ -67,13 +67,15 @@ app.use(passport.session());
 app.use(
 	(req, res, next) =>{
 		app.locals.success = req.flash('success');
+		app.locals.error = req.flash('error');
 		next();
 	}
 );
 
 /*** Routes ***/
 app.use(require('./routes/router'));
-app.use(require('./routes/security'));
+// Router de las Autenticaciones
+app.use(require('./routes/auths'));
 // Colocamos un prefijo /links
 app.use('/links', require('./routes/links'));
 

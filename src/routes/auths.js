@@ -3,6 +3,23 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+router.get('/singin',
+	(req, res) => {
+		res.render('./login/singin');
+	}
+);
+
+router.post('/singin',
+	(req, res, next) => {
+		passport.authenticate('local.singin',{
+			successRedirect: '/profile',
+			failureRedirect: '/singin',
+			failureFlash: true
+			}
+		)(req, res, next);
+	}
+);
+
 router.get('/singup',
 	(req, res) => {
 		res.render('./login/singup');

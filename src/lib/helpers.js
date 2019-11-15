@@ -13,7 +13,7 @@ helpers.encryptPass = async(password) =>{
 // Comparar Passwords para login
 helpers.comparePass = async(password, DBpassword) => {
 	try{
-		await bcrypt.compare(password, DBpassword);
+		return await bcrypt.compare(password, DBpassword);
 	}
 	catch(e){
 		console.log(e);
