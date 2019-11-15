@@ -68,6 +68,8 @@ app.use(
 	(req, res, next) =>{
 		app.locals.success = req.flash('success');
 		app.locals.error = req.flash('error');
+		// Cuando serializamos el user, ponemos en variable global toda su info
+		app.locals.user = req.user;
 		next();
 	}
 );
