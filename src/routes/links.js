@@ -22,7 +22,8 @@ router.post('/add',
 		const newLink = {
 			title,
 			url,
-			descripcion
+			descripcion,
+			userID: req.user.id
 		};
 		await MyPool.query('INSERT INTO links set ?', [newLink]);
 		req.flash('success', 'Link Agregado con Exito !!!');
@@ -34,7 +35,7 @@ router.post('/add',
 router.get('/',
 	helpers.isLoggedIn,
 	async(req, res) => {
-		const links = await MyPool.query('SELECT * FROM links');
+		const links = await MyPool.query('SELECT * FROM links WHERE userID = ?', [req.user.id]);
 		res.render('links/list', {links});
 	}
 );

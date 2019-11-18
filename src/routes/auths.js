@@ -61,7 +61,7 @@ router.get('/singout',
 	helpers.isLoggedIn,
 	(req, res) => {
 		req.logOut();
-		res.redirect('/singin');
+		res.redirect('/');
 	}
 );
 
