@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8"/>
 	<title>Favorite Links</title>
+	<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon"/>
 	{{!-- BootStrap 4 --}}
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	{{!-- Bootswatch Lux --}}
@@ -17,21 +18,8 @@
 <body>
 	{{!-- Menu desde Partials --}}
 	{{> menu }}
-
-	{{#if success}}
-		<div class="container p-4">
-			<div class="row">
-				<div class="col-md-4 mx-auto">
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						{{success}}
-						<button type="button" class="close" data-dismiss="alert" aria-label="close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	{{/if}}
+	{{!-- Alertas y Mensajes --}}
+	{{> alerts }}
 
 	{{{ body }}}
 
