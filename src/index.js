@@ -8,7 +8,7 @@ const session = require('express-session');
 const MySQLsession = require('express-mysql-session');
 const passport = require('passport');
 
-// Conexion a la DB para sesiones
+// DB connections
 const {database} = require('./keys');
 
 /*** Inits ***/
@@ -18,13 +18,14 @@ require('./lib/passport');
 /*** Settings ***/
 // Port
 app.set('port', process.env.PORT || 3000);
+// Public Files
+app.use(express.static(path.join(__dirname, 'public')));
 // Views directory
 app.set('views', path.join(__dirname, 'views'));
 // Templates Engine handlerbars config
 app.engine(
-	// Definimos handlerbars
+	// Handlerbars def
 	'.hbs',
-	// Pasamos datos
 	handlerbars({
 		// Archivo que manejara todas las vistas
 		defaultLayout: 'main',
@@ -81,9 +82,12 @@ app.use(require('./routes/auths'));
 // Colocamos un prefijo /links
 app.use('/links', require('./routes/links'));
 
-
-/*** Public Files ***/
-app.use(express.static(path.join(__dirname, 'public')));
+/*** Evitar ingreso a cualquier archivo/directorio ***/
+app.use('/*',
+	(req, res, next) => {
+		res.render('403');
+	}
+);
 
 /*** Run Server ***/
 app.listen(

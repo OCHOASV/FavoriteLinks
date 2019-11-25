@@ -1,26 +1,14 @@
 /*** Router ***/
 const express = require('express');
 const router = express.Router();
+const helpers = require('../lib/helpers');
 
 // Index
 router.get('/',
+	helpers.isNotLoggedIn,
 	(req, res) => {
 		res.render('index');
 	}
 );
-
-router.get('/403',
-	(req, res) => {
-		res.render('403');
-	}
-);
-
-/*router.get(
-	'*',
-	(req, res) => {
-		res.render('403');
-	}
-);
-*/
 
 module.exports = router;
